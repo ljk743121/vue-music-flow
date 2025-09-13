@@ -1,5 +1,5 @@
 {
-  "name": "vue-music-flow",
+  "name": "@ljk743121/vue-music-flow",
   "version": "1.0.1",
   "description": "Modern Vue 3 / Nuxt 3 audio player component with playlist and waveform visualization.",
   "main": "dist/vue-music-flow.umd.js",
@@ -10,9 +10,8 @@
   ],
   "private": false,
   "type": "module",
-  "author": "Nemanja Dragun <support@nemanjadragun.com> (https://github.com/ndragun92)",
+  "author": "ljk743121 (https://github.com/ljk743121)",
   "license": "MIT",
-  "homepage": "https://vue-music-flow-docs.vercel.app/",
   "keywords": [
     "vue3",
     "nuxt3",
@@ -63,11 +62,5 @@
     "vitest": "^3.0.5",
     "vue-tsc": "^2.2.2"
   },
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/ndragun92/vue-music-flow.git"
-  },
-  "bugs": {
-    "url": "https://github.com/ndragun92/vue-music-flow/issues"
-  }
+  "repository": "https://github.com/ljk743121/vue-music-flow"
 }
