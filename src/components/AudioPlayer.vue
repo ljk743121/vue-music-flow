@@ -201,7 +201,7 @@ type Props = {
   options?: TOptions
   grid?: string
   hidePlaylistPopup?: boolean
-  fetchUrl?: (data: Record<string,unknown> ) => string | Promise<string>
+  fetchUrl?: (data: Record<string, unknown>) => string | Promise<string>
 }
 
 const emit = defineEmits(['close'])

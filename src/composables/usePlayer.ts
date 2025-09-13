@@ -23,7 +23,7 @@ type MediaMetadataOptions = {
 
 const DEFAULT_ARTWORK_SRC = 'https://placehold.co/512x512'
 
-const fetchUrl = ref<(data: Record<string,unknown> ) => string | Promise<string>>()
+const fetchUrl = ref<(data: Record<string, unknown>) => string | Promise<string>>()
 const track = ref<TPlayerTrack | null>(null)
 const wavesurfer = ref<WaveSurfer>()
 const initializing = ref(true)
@@ -33,7 +33,7 @@ const isPlaying = ref(false)
 const options = ref<TOptions>({})
 const wavesurferElement = ref<HTMLElement | null>(null)
 
-export function fetchUrlInit(fn: (data: Record<string,unknown> ) => string | Promise<string>) {
+export function fetchUrlInit(fn: (data: Record<string, unknown>) => string | Promise<string>) {
   fetchUrl.value = fn
 }
 
@@ -145,16 +145,14 @@ export default function usePlayer(_options?: TOptions) {
       return
     }
 
-    let trackToPlay = _track;
-    console.log('fetchUrl',fetchUrl.value)
-    if (!(_track.audio)&&fetchUrl.value&&_track.data) {
+    let trackToPlay = _track
+    if (!_track.audio && fetchUrl.value && _track.data) {
       try {
-        const url = await fetchUrl.value(_track.data);
-        _track.audio = url;
-        console.log('Fetched URL:', url);
-        trackToPlay = { ..._track, audio: url };
+        const url = await fetchUrl.value(_track.data)
+        _track.audio = url
+        trackToPlay = { ..._track, audio: url }
       } catch (error) {
-        console.error('Error fetching URL:', error);
+        console.error('Error fetching URL:', error)
       }
     }
 
