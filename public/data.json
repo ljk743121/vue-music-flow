@@ -1,13 +1,15 @@
 [
   {
     "id": 1,
-    "audio": "https://storage.googleapis.com/cadenzabox-prod-bucket/audiomachine/5bbf6dac65e26100130505c2_AM18_01_Tree%20of%20Life_lo.mp3",
     "title": "Tree of Life",
     "artist": "Kevin Rix",
     "artwork": "https://storage.googleapis.com/cadenzabox-prod-bucket/audiomachine/am18/5bbf5ddc65e261001304e9fe_awakenings.jpg",
     "album": "Awakenings",
     "original": {
       "versionName": "My version"
+    },
+    "data": {
+      "songId" : "123456"
     }
   },
   {

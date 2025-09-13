@@ -6,12 +6,13 @@ import usePlayerPlaylist from './usePlayerPlaylist'
 export type TOptions = Omit<WaveSurferOptions, 'container' | 'url'>
 export type TPlayerTrack = {
   id: number
-  audio: string
+  audio?: string
   title: string
   artist: string
   artwork: string
   album: string
   original?: Record<string, unknown>
+  data?: Record<string, unknown>
 }
 type MediaMetadataOptions = {
   title: TPlayerTrack['title']
@@ -22,6 +23,7 @@ type MediaMetadataOptions = {
 
 const DEFAULT_ARTWORK_SRC = 'https://placehold.co/512x512'
 
+const fetchUrl = ref<(data: Record<string,unknown> ) => string | Promise<string>>()
 const track = ref<TPlayerTrack | null>(null)
 const wavesurfer = ref<WaveSurfer>()
 const initializing = ref(true)
@@ -31,6 +33,10 @@ const isPlaying = ref(false)
 const options = ref<TOptions>({})
 const wavesurferElement = ref<HTMLElement | null>(null)
 
+export function fetchUrlInit(fn: (data: Record<string,unknown> ) => string | Promise<string>) {
+  fetchUrl.value = fn
+}
+
 export default function usePlayer(_options?: TOptions) {
   if (_options) {
     options.value = Object(_options)
@@ -38,6 +44,7 @@ export default function usePlayer(_options?: TOptions) {
 
   const volume = useLocalStorage('player:volume', 75)
   const audioSource = computed(() => track.value?.audio)
+  const audioData = computed(() => track.value?.data)
 
   const { onSetPlaylist, onResetPlaylist, playlist, playlistOptions } = usePlayerPlaylist()
 
@@ -132,16 +139,30 @@ export default function usePlayer(_options?: TOptions) {
     isPlaying.value = false
   }
 
-  const handleTrackPlay = (_track: TPlayerTrack) => {
+  const handleTrackPlay = async (_track: TPlayerTrack) => {
     if (!_track) {
       console.error('Invalid track data')
       return
     }
-    if (track.value?.id === _track.id) {
+
+    let trackToPlay = _track;
+    console.log('fetchUrl',fetchUrl.value)
+    if (!(_track.audio)&&fetchUrl.value&&_track.data) {
+      try {
+        const url = await fetchUrl.value(_track.data);
+        _track.audio = url;
+        console.log('Fetched URL:', url);
+        trackToPlay = { ..._track, audio: url };
+      } catch (error) {
+        console.error('Error fetching URL:', error);
+      }
+    }
+
+    if (track.value?.id === trackToPlay.id) {
       togglePlayback()
     } else {
       destroy()
-      track.value = _track
+      track.value = trackToPlay
       init()
     }
   }
@@ -251,6 +272,7 @@ export default function usePlayer(_options?: TOptions) {
     togglePlayback,
     onClose: destroy,
     audioSource,
+    audioData,
     initializing,
     isPlaying,
     formattedCurrentDuration,

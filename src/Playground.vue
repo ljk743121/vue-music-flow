@@ -39,6 +39,7 @@
         // height: 50,
         autoplay: true,
       }"
+      :fetchUrl = "fetchTracks"
     >
       <template #actions="{ track }">
         <button
@@ -71,6 +72,14 @@ const { isTrackPlaying, onPlaySingleTrack, onPlayAsPlaylist } = usePlayer()
 const onMarkTrackAsFavorite = (track: TPlayerTrack | null) => {
   console.log(track)
   alert(`Market track ${track?.title} as favorite`)
+}
+
+async function fetchTracks(data: Record<string, unknown>) {
+  let response = ''
+  if (data.songId==='123456'){
+    response = 'http://m701.music.126.net/20250912215047/84beef6a08b9eeec67c806f9975178b0/jdymusic/obj/wo3DlMOGwrbDjj7DisKw/32404374480/3803/10e2/4f6d/034625c58bc75a7d2d9846ed41ec3ca5.mp3?vuutv=6pA8JF8xmYIY+ybvl6tzMlo13FPQ+6aqxNbYaqBK/Wz9FaXEEDs0dpZvodu+yPTIOeuN05SNMoy8VAPHqb866hMHahlMLJOShj9W1nYWKVL3MrwOYzgZIN5vZotpeoVUJqfC00uHp//Uuhgm7m2nVw==&cdntag=bWFyaz1vc193ZWIscXVhbGl0eV9zdGFuZGFyZA';
+  }
+  return response
 }
 
 const tracks = ref<TPlayerTrack[]>([])

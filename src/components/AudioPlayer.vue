@@ -182,6 +182,7 @@
 
 <script lang="ts" setup>
 import { computed, onUnmounted } from 'vue'
+import { fetchUrlInit } from '../composables/usePlayer'
 import usePlayer, { type TOptions } from '../composables/usePlayer'
 import IconPlay from '../components/Icons/IconPlay.vue'
 import IconPause from '../components/Icons/IconPause.vue'
@@ -200,6 +201,7 @@ type Props = {
   options?: TOptions
   grid?: string
   hidePlaylistPopup?: boolean
+  fetchUrl?: (data: Record<string,unknown> ) => string | Promise<string>
 }
 
 const emit = defineEmits(['close'])
@@ -212,6 +214,8 @@ const returnGrid = computed(() => {
     `mw:[grid-template-areas:'image_metadata_metadata_metadata'_'currentDuration_waveform_waveform_endDuration'_'controls_controls_volume_actions'] mw:grid-cols-[auto_minmax(0,1fr)_auto_auto] mw:phone:[grid-template-areas:'image_metadata_controls_volume_actions'_'currentDuration_waveform_waveform_waveform_endDuration'] mw:phone:grid-cols-[auto_minmax(0,1fr)_auto_auto_auto] mw:tablet:[grid-template-areas:'image_metadata_controls_currentDuration_waveform_endDuration_volume_actions'] mw:tablet:grid-cols-[auto_auto_auto_minmax(0,3rem)_minmax(0,1fr)_minmax(0,3rem)_auto_auto_auto]`
   )
 })
+
+if (props.fetchUrl) fetchUrlInit(props.fetchUrl)
 
 const {
   wavesurferElement,
